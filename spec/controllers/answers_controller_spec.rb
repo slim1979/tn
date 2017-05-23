@@ -28,16 +28,21 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect to index view' do
         post :new, params: { answer: attributes_for(:answer), id: question }
-        expect(response).to redirect_to question_path(id: question)
+        expect(response).to render_template :new
       end
 
     end
 
     context 'with invalid parameters' do
-      it '' do
-        post :new, params: { answer: attributes_for(:answer), id: question }
-
+      it 'validate that incorrect answer will not be saved in db' do
+        expect { post :new, params: { answer: attributes_for(:invalid_answer), id: question } }.to_not change(Answer, :count)
       end
+      it 'validate re-rendering new view' do
+        post :new, params: { answer: attributes_for(:invalid_answer), id: question }
+        expect(response).to render_template :new
+      end
+
     end
+
   end
 end
