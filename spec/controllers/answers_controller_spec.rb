@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
-  let(:answer) { question.answers.create }
+  let(:answer) { question.answers.create(body: '123') }
 
   describe 'user can aswer on question' do
 
@@ -23,12 +23,15 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'validate that correct answer saves in db' do
-        expect { question.answers.create(body: 'some body') }.to change(Answer, :count).by(1)
+        expect { answer }.to change(Answer, :count).by(1)
       end
 
       it 'redirect to index view' do
+        # answer
         post :new, params: { answer: attributes_for(:answer), id: question }
-        expect(response).to render_template :new
+        expect(response).to redirect_to question_path(id: question)
+        binding.pry
+
       end
 
     end
@@ -38,7 +41,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :new, params: { answer: attributes_for(:invalid_answer), id: question } }.to_not change(Answer, :count)
       end
       it 'validate re-rendering new view' do
-        post :new, params: { answer: attributes_for(:invalid_answer), id: question }
+        post :new, params: { answer: attributes_for(:invalid_answer)}
         expect(response).to render_template :new
       end
 

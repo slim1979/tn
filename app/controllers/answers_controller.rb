@@ -1,9 +1,12 @@
 class AnswersController < ApplicationController
 
   def new
-    @question = Question.find(params[:id])
-    @answer = Answer.new(question_id: @question.id)
-    redirect_to question_path(assigns(:question)) if @answer.save
+    if params[:id]
+      @question = Question.find(params[:id])
+      @answer = @question.answers.create(body: params[:body])
+      redirect_to question_path(id: @question)
+    else
+    end
   end
 
 end
