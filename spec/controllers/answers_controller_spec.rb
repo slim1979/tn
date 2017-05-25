@@ -19,11 +19,23 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     context 'with valid parametrs' do
       it 'validates that correct answer saves in db' do
-        expect { post :create, params: { answer: attributes_for(:answer), id: question } }.to change(question.answers, :count).by(1)
+        expect { post :create, params: { answer: attributes_for(:answer), id: question } }.to \
+          change(question.answers, :count).by(1)
       end
       it 'redirect to question after save in db' do
         post :create, params: { answer: attributes_for(:answer), id: question }
         expect(response).to redirect_to question_path(id: question)
+      end
+    end
+
+    context 'with invalid parametrs' do
+      it 'validates that incorrect answer will not save in db' do
+        expect { post :create, params: { answer: attributes_for(:invalid_answer), id: question } }.to_not \
+          change(question.answers, :count)
+      end
+      it 're-render new template' do
+        post :create, params: { answer: attributes_for(:invalid_answer), id: question }
+        expect(response).to render_template :new
       end
     end
   end
