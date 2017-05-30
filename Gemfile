@@ -36,6 +36,7 @@ gem 'rubocop'
 gem'slim-rails'
 gem 'rails-controller-testing'
 gem 'pry-rails'
+gem 'devise'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -47,6 +48,8 @@ group :development, :test do
   gem 'factory_girl_rails'
 	gem 'guard-rspec'
 	gem 'spring-commands-rspec'
+  gem 'launchy'
+
 end
 
 group :development do
