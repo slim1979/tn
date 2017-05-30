@@ -9,12 +9,6 @@ feature 'User sign in', %q{
   given(:user) { create(:user) }
 
   scenario 'Registered user tries to sign in' do
-    # User.create!(email: 'user@test.com', password: '12345678')
-
-    # visit new_user_session_path
-    # fill_in 'Email', with: user.email
-    # fill_in 'Password', with: user.password
-    # click_on 'Log in'
     sign_in(user)
 
     expect(page).to have_content 'Signed in successfully.'
