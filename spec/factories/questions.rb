@@ -3,8 +3,8 @@ FactoryGirl.define do
     "Question Title №#{n}"
   end
 
-  sequence :body do |n|
-    ('a'..'z').to_a.shuffle[0..50].join
+  sequence :body do
+    ('a'..'z').to_a.sample(51).join
   end
 
   factory :question do
