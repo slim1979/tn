@@ -6,3 +6,5 @@ p Question list
     .title      = link_to q.title, question_path(id: q.id)
     .body       = q.body
     .created_at = q.created_at
+    br
+p = user_signed_in? ? (link_to "Sign out", users_sign_out_path) : ''
