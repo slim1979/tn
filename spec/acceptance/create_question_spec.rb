@@ -12,7 +12,7 @@ feature 'Create question', %q{
 
     sign_in(user)
 
-    visit questions_path
+    visit @question
     click_on 'Ask question'
     fill_in 'Title', with: 'Test title'
     fill_in 'Body', with: 'Test body'
@@ -24,8 +24,7 @@ feature 'Create question', %q{
   scenario 'Unauthenticated user cant create any questions' do
 
     visit @question
-    click_on 'Ask question'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_button('Ask question')
   end
 end

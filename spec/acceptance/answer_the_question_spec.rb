@@ -20,7 +20,7 @@ feature 'User can answer the question', %q{
     expect(page).to have_content 'Thank your for your answer!'
   end
 
-  scenario 'Unsigned in User answer the question' do
+  scenario 'Unsigned in User tries answer the question' do
     visit question_path(id: question)
 
     expect(page).to_not have_button('Save')
