@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question) }
 
   before do
@@ -24,7 +25,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     context 'with valid parametrs' do
       it 'validates that correct answer saves in db' do
-        expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer), id: question } }.to \
+        expect { post :create, params: { answer: attributes_for(:answer), question_id: question.id } }.to \
           change(question.answers, :count).by(1)
       end
       it 'redirect to question after save in db' do

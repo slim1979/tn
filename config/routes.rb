@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   end
 
   resources :questions do
+    delete '/questions/id' => 'questions#destroy'
     resources :answers
   end
   root to: "questions#index"

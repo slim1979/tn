@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, :load_answers, only: %i[show edit update destroy]
+  before_action :load_question, only: %i[show edit update destroy]
+  before_action :load_answers, only: %i[show edit update destroy]
 
   def index
     @questions = Question.all
@@ -16,9 +17,10 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
+    # binding.pry
 
     if @question.save
-      redirect_to @question, notice: 'Your question is successfully created!'
+      redirect_to question_path(id: @question), notice: 'Your question is successfully created!'
     else
       render :new
     end
@@ -34,7 +36,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    redirect_to question_path
+    redirect_to question_path(id: @question)
   end
 
   private
@@ -44,8 +46,8 @@ class QuestionsController < ApplicationController
   end
 
   def load_answers
-    question = Question.find(params[:id])
-    @answer = Answer.where question_id: question.id
+    @question = Question.find(params[:id])
+    @answer = Answer.where question_id: @question.id
   end
   def question_params
     params.require(:question).permit(:title, :body)

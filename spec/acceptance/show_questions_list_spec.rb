@@ -6,18 +6,18 @@ feature 'View question list', %q{
   I want to see the question list
 } do
   given(:user) { create(:user) }
-  given!(:questions) { create_list(:question, 3) }
+  given!(:questions) { create_list(:question, 3, user: user) }
 
   scenario 'Signed in user can saw available questions list' do
     sign_in(user)
-    visit root_path
+    visit @question
     questions.each do |q|
       expect(page).to have_content q.body
     end
   end
 
   scenario 'Unsigned in user also can saw available questions list' do
-    visit root_path
+    visit @question
     questions.each do |q|
       expect(page).to have_content q.body
     end

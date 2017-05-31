@@ -7,12 +7,13 @@ feature 'User can answer the question', %q{
 } do
 
   given(:user) { create(:user) }
-  given!(:question) { create(:question) }
+  given!(:question) { create(:question, user: user) }
 
   scenario 'Signed in User answer the question' do
     sign_in(user)
 
     visit question_path(id: question)
+    save_and_open_page 
 
     fill_in 'answer_body', with: 'qwerty'
     click_on 'Save'
