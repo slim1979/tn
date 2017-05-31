@@ -1,0 +1,11 @@
+h1 =@question.title
+p  =@question.body
+br
+.container
+  .answer
+    = form_for [@question, Answer.new] do |a|
+      = a.label 'Enter your answer'
+      br
+      = a.text_field :body, rows: '5'
+      br
+      = user_signed_in? ? (a.submit 'Save') : ''

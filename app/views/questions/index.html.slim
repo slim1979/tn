@@ -3,6 +3,6 @@ p = user_signed_in? ? (link_to "Ask question", new_question_path) : ''
 p Question list
 - @questions.each do |q|
   .container
-    .title      = q.title
+    .title      = link_to q.title, question_path(id: q.id)
     .body       = q.body
     .created_at = q.created_at
