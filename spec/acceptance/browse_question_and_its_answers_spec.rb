@@ -17,7 +17,7 @@ feature 'User can browse the questions with its answers', %q{
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
-    answers.each do |a|     
+    answers.each do |a|
       expect(page).to have_content a.body
     end
   end
@@ -26,7 +26,7 @@ feature 'User can browse the questions with its answers', %q{
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
-    answers.each do |a|     
+    answers.each do |a|
       expect(page).to have_content a.body
     end
   end
