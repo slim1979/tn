@@ -16,11 +16,11 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def create
-    @question = Question.new(question_params)
-    # binding.pry
-
+    @user = User.find(params[:user_id])
+    @question = @user.questions.build(question_params)
     if @question.save
-      redirect_to question_path(id: @question), notice: 'Your question is successfully created!'
+      redirect_to questions_path, notice: 'Your question is successfully created!'
+
     else
       render :new
     end
@@ -49,6 +49,7 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @answer = Answer.where question_id: @question.id
   end
+
   def question_params
     params.require(:question).permit(:title, :body)
   end
