@@ -1,16 +1,20 @@
 .container
+
   h1 =@question.title
   p  =@question.body
   br
+  
   .exists_answers
-    - @answer.each do |a|
+    - @question.answers.each do |a|
       .body       =a.body
-      .created_at =a.created_at      
+      .created_at =a.created_at
+      .manage = user_signed_in? ? (current_user.id == @question.user_id ? \
+                  (link_to 'Delete', answer_path(id: a.id), data: { confirm: 'Are you sure?' }, method: :delete) : \
+                  '' ) : ''
       br
       
-  .answer
+  .new_answer
     = form_for [@question, Answer.new] do |a|
-
       = a.label 'Enter your answer'
       br
       = a.text_area :body, rows: 5
