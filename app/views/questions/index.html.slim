@@ -5,6 +5,6 @@ p Question list
     .title      = link_to q.title, questions_path(id: q.id)
     .body       = q.body
     .created_at = q.created_at
-    .manage     = link_to 'Delete', question_path(id: q.id), method: :delete
+    .manage     = link_to 'Delete', question_path(id: q.id), data: { confirm: 'Are you sure?' }, method: :delete
     br
 p = user_signed_in? ? (link_to "Sign out", users_sign_out_path) : (link_to "Sign in", new_user_session_path)
