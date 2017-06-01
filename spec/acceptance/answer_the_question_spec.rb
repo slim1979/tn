@@ -13,7 +13,6 @@ feature 'User can answer the question', %q{
     sign_in(user)
 
     visit question_path(id: question)
-    save_and_open_page 
 
     fill_in 'answer_body', with: 'qwerty'
     click_on 'Save'

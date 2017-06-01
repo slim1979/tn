@@ -9,7 +9,8 @@
       br
       
   .answer
-    = form_for [@user, @question.answers] do |a|
+    = form_for [@question, Answer.new] do |a|
+
       = a.label 'Enter your answer'
       br
       = a.text_area :body, rows: 5

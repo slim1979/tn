@@ -20,7 +20,6 @@ class QuestionsController < ApplicationController
     @question = @user.questions.build(question_params)
     if @question.save
       redirect_to questions_path, notice: 'Your question is successfully created!'
-
     else
       render :new
     end
