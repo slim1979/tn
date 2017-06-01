@@ -20,7 +20,6 @@ feature 'User can browse the questions with its answers', %q{
     answers.each do |a|
       expect(page).to have_content a.body
     end
-    save_and_open_page
   end
   scenario 'Unsigned in user tries to browse some q with its a' do
     visit question_path(id: question)
