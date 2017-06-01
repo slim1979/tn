@@ -15,6 +15,6 @@ feature 'Author can delete his own content', %q{
 
     visit questions_path(id: questions)
 
-    expect{ click_on 'Delete' }.to change(Question, :count).by(-1) 
+    expect{ click_on 'Delete' }.to change(Question, :count).by(-1)
   end
 end
