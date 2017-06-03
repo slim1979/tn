@@ -2,15 +2,16 @@
 
   h1 =@question.title
   p  =@question.body
+  p  =@question.id
+  p  =current_user.id
   br
   
   .exists_answers
     - @question.answers.each do |a|
+      .tech       =a.user_id
       .body       =a.body
       .created_at =a.created_at
-      .manage = user_signed_in? ? (current_user.id == @question.user_id ? \
-                  (link_to 'Delete', answer_path(id: a.id), data: { confirm: 'Are you sure?' }, method: :delete) : \
-                  '' ) : ''
+      .manage = link_to 'Delete', answers_path(id: a.id), data: { confirm: 'Are you sure?' }, method: :delete
       br
       
   .new_answer

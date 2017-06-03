@@ -5,16 +5,12 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
-  let(:answer) { create(:answer, question: question) }
-
-  before do
-    get :new, params: {
-      question_id: question.id, answer: attributes_for(:answer), id: question
-    }
-  end
+  let(:answer) { create(:answer, question: question, user: user) }
 
   describe 'GET #new' do
-    it 'assign a new question to @question' do
+    sign_in_user
+    before { get :new, params: { question_id: question.id } }
+    it 'assign a new answer to @answer' do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
     it 'renders new view' do
@@ -23,6 +19,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
     context 'with valid parametrs' do
       it 'validates that correct answer saves in db' do
         expect { post :create, params: { answer: attributes_for(:answer), question_id: question.id } }.to \
