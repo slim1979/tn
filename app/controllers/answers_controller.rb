@@ -1,11 +1,13 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, except: %i[index show]
   before_action :answer_params, only: :create
+
   def new
-    @answer = Answer.new
+    @answer = @question.answer.new
   end
 
   def create
-    @question = Question.find(params[:question_id])
+    @question = @user.question.find(params[:question_id])
     @answer = @question.answers.build(answer_params)
     if @answer.save
       redirect_to question_path(id: params[:question_id]), notice: 'Thank your for your answer!'
