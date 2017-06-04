@@ -13,17 +13,16 @@ feature 'User can answer the question', %q{
     sign_in(user)
 
     visit question_path(id: question)
-
     fill_in 'answer_body', with: 'qwerty'
     click_on 'Save'
 
-    expect(page).to have_content 'Thank your for your answer!'
+    expect(page).to have_content 'qwerty'
   end
 
   scenario 'Unsigned in User tries answer the question' do
     visit question_path(id: question)
 
-    expect(page).to_not have_button('Save')
+    expect(page).to_not have_selector('answer_body')
   end
 
 end

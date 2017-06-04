@@ -21,7 +21,7 @@ feature 'Author can delete his own content', %q{
 
   scenario 'Author cant delete other authors questions' do
     sign_in(user2)
-    visit questions_path(id: question)
+    visit questions_path(id: question)  
 
     expect(page).to_not have_link('Delete')
   end

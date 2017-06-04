@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
+  let(:user2) { create(:user) }
   let(:question) { create(:question, user: user) }
 
   describe 'GET #index' do
@@ -121,16 +122,28 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    sign_in_user
-
     before { question }
-    it 'destroy question' do
-      expect{ delete :destroy, params:{ id: question } }.to change(Question, :count).by(-1)
+
+    context 'Signed in user tried to destroy question' do
+      sign_in_user
+      it 'destroy question' do
+        expect{ delete :destroy, params:{ id: question } }.to change(Question, :count).by(-1)
+      end
+      it 'redirect to index view' do
+        delete :destroy, params:{ id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirect to index view' do
-      delete :destroy, params:{ id: question }
-      expect(response).to redirect_to questions_path
+    context 'Unsigned user tried to destroy question' do
+      it 'will not destroy question' do
+        expect{ delete :destroy, params:{ id: question } }.to_not change(Question, :count)
+      end
+      it 'will not goes anywhere' do
+        delete :destroy, params:{ id: question }
+        expect(response).to redirect_to new_user_session_path
+      end
     end
+
   end
 end

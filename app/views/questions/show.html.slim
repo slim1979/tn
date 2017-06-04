@@ -2,22 +2,20 @@
 
   h1 =@question.title
   p  =@question.body
-  p  =@question.id
-  p  =current_user.id
   br
   
   .exists_answers
     - @question.answers.each do |a|
-      .tech       =a.user_id
       .body       =a.body
       .created_at =a.created_at
-      .manage = link_to 'Delete', answers_path(id: a.id), data: { confirm: 'Are you sure?' }, method: :delete
-      br
+      .manage = link_to 'Delete', answer_path(id: a.id), data: { confirm: 'Are you sure?' }, method: :delete
+      br 
       
-  .new_answer
-    = form_for [@question, Answer.new] do |a|
-      = a.label 'Enter your answer'
-      br
-      = a.text_area :body, rows: 5
-      br
-      = user_signed_in? ? (a.submit 'Save') : ''
+  -if user_signed_in?    
+    .new_answer
+      = form_for [@question, Answer.new] do |a|
+        =a.label :answer_body
+        br
+        =a.text_area :body, rows: 5
+        br
+        =a.submit 'Save'

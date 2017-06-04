@@ -35,7 +35,6 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    # @question.answers.destroy
     redirect_to questions_path
   end
 
@@ -43,12 +42,7 @@ class QuestionsController < ApplicationController
 
   def load_question
     @question = Question.find(params[:id])
-    @answer = Answer.where question_id: @question.id
   end
-
-  # def load_answers
-  #   @question = Question.find(params[:id])
-  # end
 
   def question_params
     params.require(:question).permit(:title, :body)
