@@ -3,12 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
-  let(:question2) { create(:question, user: @user) }
+  let(:question) { create(:question, user: @user) }
+  let(:questions) { create_list(:question, 2, user: @user) }
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 2, user: user) }
+    sign_in_user
 
     before do
       get :index
@@ -24,6 +23,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
+    sign_in_user
+
     before { get :show, params: { id: question } }
 
     it 'assigns the requested question to @question' do
@@ -60,11 +61,15 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    sign_in_user2
+    sign_in_user
     context 'with valid attributes' do
       it 'saves the question to db' do
         expect { post :create, params: { question: attributes_for(:question) } }.to \
           change(Question, :count).by(1)
+      end
+
+      it 'validates that created question is linked with current user' do
+        expect(question.user_id).to eq @user.id
       end
 
       it 'redirect to show view' do
@@ -122,24 +127,29 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { question }
-
     context 'Signed in user tried to destroy question' do
-      sign_in_user2
+      sign_in_user
+      before { question }
+
       it 'destroy question' do
-        question2
-        expect{ delete :destroy, params:{ id: question2 } }.to change(Question, :count).by(-1), change(Answer, :count)
+        expect{ delete :destroy, params:{ id: question } }.to change(Question, :count).by(-1), change(Answer, :count)
       end
+
       it 'redirect to index view' do
-        delete :destroy, params:{ id: question2 }
+        delete :destroy, params:{ id: question }
         expect(response).to redirect_to questions_path
       end
     end
 
     context 'Unsigned user tried to destroy question' do
+      sign_in_user
+      before { question }
+      before { sign_out @user }
+
       it 'will not destroy question' do
         expect{ delete :destroy, params:{ id: question } }.to_not change(Question, :count)
       end
+
       it 'will not goes anywhere' do
         delete :destroy, params:{ id: question }
         expect(response).to redirect_to new_user_session_path
