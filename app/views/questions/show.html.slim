@@ -1,6 +1,6 @@
 .container
 
-  h1 =@question.title
+  h3 =@question.title
   p  =@question.body
   br
   
@@ -19,3 +19,5 @@
         =a.text_area :body, rows: 5
         br
         =a.submit 'Save'
+  -else
+    p Authenticate to answer the question

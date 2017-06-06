@@ -10,9 +10,7 @@ html
   
 
   body
-    
+    p .user = user_signed_in? ? (link_to "Sign out", destroy_user_session_path, method: :delete) : (link_to "Sign in", new_user_session_path)
     p .notice =notice
     p .alert =alert 
-
     =yield 
-  

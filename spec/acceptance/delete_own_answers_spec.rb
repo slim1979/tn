@@ -15,14 +15,15 @@ feature 'Author can delete his own answers', %q{
     sign_in(user)
 
     visit question_path(id: question)
-    expect{ click_on 'Delete' }.to change(Answer, :count)
+    click_on 'Delete'
+    expect(page).to have_content 'Deleted'
   end
 
   scenario 'Author cant delete other authors answers' do
     sign_in(user2)
     visit question_path(id: question)
     #  binding.pry
-    save_and_open_page 
+    # save_and_open_page
     expect{ click_on 'Delete' }.to_not change(Answer, :count)
   end
 end

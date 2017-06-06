@@ -15,13 +15,13 @@ feature 'Author can delete his own content', %q{
     sign_in(user)
 
     visit questions_path(id: question)
-
-    expect{ click_on 'Delete' }.to change(Question, :count).by(-1), change(Answer, :count)
+    click_on 'Delete'
+    expect(page).to have_content 'Deleted' 
   end
 
   scenario 'Author cant delete other authors questions' do
     sign_in(user2)
-    visit questions_path(id: question)  
+    visit questions_path(id: question)
 
     expect(page).to_not have_link('Delete')
   end

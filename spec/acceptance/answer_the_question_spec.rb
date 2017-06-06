@@ -23,6 +23,8 @@ feature 'User can answer the question', %q{
     visit question_path(id: question)
 
     expect(page).to_not have_selector('answer_body')
+    expect(page).to have_content('Authenticate to answer the question')
+    save_and_open_page
   end
 
 end
